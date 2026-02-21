@@ -1,0 +1,1673 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <title>Riara University Accommodation Finder</title>
+ <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-image: url('./images/Riara Univesity Image.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .login-form {
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 400px;
+      margin: 100px auto;
+      box-shadow: 0 8px 32px rgba(147, 51, 234, 0.2);
+      backdrop-filter: blur(12px);
+    }
+/* Tab switcher inside auth box */
+.auth-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  background: transparent;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.auth-tab.active {
+  background: rgba(147, 51, 234, 0.3);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.auth-tab:hover:not(.active) {
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.85);
+}
+
+.auth-panel { display: none; }
+.auth-panel.active { display: block; }
+    .login-form h1 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-size: 28px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      font-weight: 500;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 10px;
+      font-size: 16px;
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
+
+    .login-form input:focus {
+      outline: none;
+      border-color: rgba(236, 72, 153, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+    }
+
+    .login-form input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background: rgba(147, 51, 234, 0.25);
+      color: white;
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: rgba(147, 51, 234, 0.35);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(147, 51, 234, 0.25);
+      border-color: rgba(236, 72, 153, 0.4);
+    }
+
+    .btn-small {
+      width: auto;
+      padding: 8px 16px;
+      font-size: 14px;
+      margin: 5px;
+    }
+
+    .btn-success { 
+      background: rgba(168, 85, 247, 0.25);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    
+    .btn-success:hover {
+      background: rgba(168, 85, 247, 0.35);
+      border-color: rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-danger { 
+      background: rgba(219, 39, 119, 0.25);
+      border: 1px solid rgba(219, 39, 119, 0.3);
+    }
+
+    .btn-danger:hover {
+      background: rgba(219, 39, 119, 0.35);
+      border-color: rgba(219, 39, 119, 0.4);
+    }
+
+    .btn-secondary { 
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(192, 132, 252, 0.25);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(147, 51, 234, 0.25);
+      border-color: rgba(192, 132, 252, 0.35);
+    }
+
+    .hidden { display: none; }
+
+    .header {
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      border-radius: 15px;
+      padding: 20px 30px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(147, 51, 234, 0.15);
+      backdrop-filter: blur(12px);
+    }
+
+    .header h1 {
+      color: #ffffff;
+      font-size: 24px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      font-weight: 500;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: white;
+      background: rgba(168, 85, 247, 0.25);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+
+    .badge.verified { 
+      background: rgba(147, 51, 234, 0.3);
+      border: 1px solid rgba(192, 132, 252, 0.4);
+    }
+    
+    .badge.unverified { 
+      background: rgba(219, 39, 119, 0.25);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: rgba(147, 51, 234, 0.12);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .tab:hover {
+      background: rgba(147, 51, 234, 0.2);
+      color: #ffffff;
+      border-color: rgba(236, 72, 153, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .tab.active {
+      background: rgba(168, 85, 247, 0.3);
+      color: white;
+      border-color: rgba(236, 72, 153, 0.5);
+      box-shadow: 0 2px 12px rgba(147, 51, 234, 0.2);
+    }
+
+    #content {
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(147, 51, 234, 0.15);
+      backdrop-filter: blur(12px);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      background: rgba(168, 85, 247, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(147, 51, 234, 0.2);
+    }
+
+    .stat-card h3 {
+      font-size: 32px;
+      color: #ffffff;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .stat-card p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .listing {
+      background: rgba(80, 40, 160, 0.28);
+      border: 1px solid rgba(120, 80, 220, 0.35);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 16px;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 12px rgba(60, 20, 120, 0.15);
+    }
+
+    .listing:hover {
+      background: rgba(90, 50, 180, 0.35);
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(60, 20, 120, 0.25);
+    }
+
+    .listing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .listing-header h3 {
+      font-size: 18px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .listing-badge {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .listing-badge.available {
+      background: rgba(34, 197, 94, 0.85);
+      color: white;
+    }
+
+    .listing-badge.booked {
+      background: rgba(234, 179, 8, 0.9);
+      color: #000;
+    }
+
+    .listing-badge.unavailable {
+      background: rgba(239, 68, 68, 0.85);
+      color: white;
+    }
+
+    .listing-details div {
+      margin: 7px 0;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.88);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .booking-card {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 15px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .booking-card:hover {
+      background: rgba(168, 85, 247, 0.2);
+      transform: translateX(4px);
+    }
+
+    .booking-status {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .booking-status.pending {
+      background: rgba(255, 215, 0, 0.9);
+      color: #000;
+    }
+
+    .booking-status.confirmed {
+      background: rgba(34, 139, 34, 0.8);
+      color: white;
+    }
+
+    .booking-status.cancelled {
+      background: rgba(220, 20, 60, 0.8);
+      color: white;
+    }
+
+    .message-thread {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+      max-width: 75%;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .message:hover {
+      background: rgba(147, 51, 234, 0.2);
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      background: rgba(219, 39, 119, 0.2);
+      border-color: rgba(236, 72, 153, 0.3);
+    }
+
+    .message.sent:hover {
+      background: rgba(219, 39, 119, 0.25);
+    }
+
+    .message-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .message-content {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.5;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 14px;
+      border: 1px solid rgba(236, 72, 153, 0.2);
+      text-align: left;
+    }
+
+    th {
+      background: rgba(147, 51, 234, 0.2);
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    td {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(147, 51, 234, 0.1);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    form input, form textarea, form select {
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 8px;
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
+
+    form input:focus, form textarea:focus, form select:focus {
+      outline: none;
+      border-color: rgba(236, 72, 153, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+    }
+
+    form textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(147, 51, 234, 0.4);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(147, 51, 234, 0.6);
+    }
+
+    /* ========== SEARCH & FILTER PANEL ========== */
+.search-panel {
+  background: rgba(80, 40, 160, 0.35);
+  border: 1px solid rgba(120, 80, 220, 0.45);
+  border-radius: 16px;
+  padding: 22px 26px;
+  margin-bottom: 22px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 24px rgba(80, 40, 160, 0.18);
+}
+
+.search-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.search-panel-title::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+  flex-shrink: 0;
+}
+
+.search-panel-title span {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 150px;
+}
+
+.search-field label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+.search-field input,
+.search-field select {
+  padding: 10px 13px;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(150, 100, 255, 0.3);
+  border-radius: 9px;
+  font-size: 14px;
+  color: #ffffff;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.search-field input:focus,
+.search-field select:focus {
+  outline: none;
+  border-color: rgba(56, 189, 248, 0.6);
+  background: rgba(255,255,255,0.13);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+}
+
+.search-field input::placeholder { color: rgba(255,255,255,0.32); }
+.search-field select option       { background: #2d0a6e; color: #fff; }
+
+.search-actions {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  padding-bottom: 1px;
+}
+
+.search-actions .btn-search {
+  padding: 10px 22px;
+  background: rgba(139, 92, 246, 0.55);
+  border: 1px solid rgba(167, 139, 250, 0.5);
+  border-radius: 9px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: auto;
+  margin-top: 0;
+}
+
+.search-actions .btn-search:hover {
+  background: rgba(139, 92, 246, 0.75);
+  transform: translateY(-1px);
+}
+
+.search-actions .btn-clear {
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 9px;
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: auto;
+  margin-top: 0;
+}
+
+.search-actions .btn-clear:hover {
+  background: rgba(255,255,255,0.14);
+}
+
+.search-meta {
+  margin-top: 14px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.2px;
+}
+
+.amenity-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.amenity-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: rgba(139, 92, 246, 0.22);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: rgba(255,255,255,0.8);
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div id="loginForm" class="login-form">
+  <h1>Riara Accommodation</h1>
+
+  <!-- Tab switcher -->
+  <div class="auth-tabs">
+    <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+    <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+  </div>
+
+  <!-- LOGIN PANEL -->
+  <div id="loginPanel" class="auth-panel active">
+    <form id="authForm">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn">Login</button>
+    </form>
+    <p id="loginErrorMsg" style="color: #ff4500; text-align: center; margin-top: 10px;"></p>
+  </div>
+
+  <!-- REGISTER PANEL -->
+  <div id="registerPanel" class="auth-panel">
+    <form id="registerForm">
+      <input type="text" name="full_name" placeholder="Full Name" required>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="tel" name="phone_number" placeholder="Phone Number (e.g. 0712345678)">
+      <select name="role" required style="width:100%; padding:15px; margin:10px 0; background:rgba(255,255,255,0.08); border:1px solid rgba(236,72,153,0.25); border-radius:10px; font-size:16px; color:#ffffff;">
+        <option value="" disabled selected>Select Role</option>
+        <option value="student">Student</option>
+        <option value="landlord">Landlord</option>
+      </select>
+      <input type="password" name="password" placeholder="Password (min. 6 characters)" required minlength="6">
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required minlength="6">
+      <button type="submit" class="btn">Create Account</button>
+    </form>
+    <p id="registerMsg" style="text-align: center; margin-top: 10px;"></p>
+  </div>
+</div>
+
+  <div id="app" class="container hidden">
+    <div class="header">
+      <h1>Riara Accommodation Dashboard</h1>
+      <div class="user-info">
+        <span id="userName"></span>
+        <span class="badge" id="userRole"></span>
+        <span class="badge" id="verificationStatus"></span>
+        <button class="btn btn-danger btn-small" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div id="content"></div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:5000'; // Update if different
+    let token = null;
+    let currentUser = null;
+
+ // --- LOGIN ---
+document.getElementById('authForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData);
+  const errorEl = document.getElementById('loginErrorMsg');
+  errorEl.textContent = '';
+
+  try {
+    const res = await fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      throw new Error(json.error || 'Invalid credentials');
+    }
+
+    token = json.token;
+    currentUser = json.user;
+
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    setupDashboard();
+  } catch (err) {
+    errorEl.textContent = err.message;
+  }
+});
+
+// --- REGISTER ---
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData);
+  const msgEl = document.getElementById('registerMsg');
+  msgEl.style.color = '#ff4500';
+  msgEl.textContent = '';
+
+  // Client-side password match check
+  if (data.password !== data.confirm_password) {
+    msgEl.textContent = 'Passwords do not match.';
+    return;
+  }
+
+  // Remove confirm_password before sending to API
+  delete data.confirm_password;
+
+  try {
+    const res = await fetch(`${API_URL}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      throw new Error(json.error || 'Registration failed');
+    }
+
+    // Success — switch to login tab and show success message
+    msgEl.style.color = '#a855f7';
+    msgEl.textContent = '✅ Account created! Please log in.';
+    e.target.reset();
+    setTimeout(() => switchAuthTab('login'), 1500);
+  } catch (err) {
+    msgEl.textContent = err.message;
+  }
+});
+
+// --- TAB SWITCHER ---
+function switchAuthTab(tab) {
+  const tabs = document.querySelectorAll('.auth-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+
+  if (tab === 'login') {
+    tabs[0].classList.add('active');
+    document.getElementById('loginPanel').classList.add('active');
+  } else {
+    tabs[1].classList.add('active');
+    document.getElementById('registerPanel').classList.add('active');
+  }
+}
+
+    function setupDashboard() {
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userRole').textContent = capitalize(currentUser.role);
+      document.getElementById('verificationStatus').textContent = currentUser.is_verified ? 'Verified' : 'Unverified';
+      document.getElementById('verificationStatus').classList.add(currentUser.is_verified ? 'verified' : 'unverified');
+
+      const tabs = document.getElementById('tabs');
+      tabs.innerHTML = '';
+
+      const commonTabs = [
+        { id: 'dashboard', label: 'Dashboard', func: loadDashboard },
+        { id: 'listings', label: 'Listings', func: loadListings },
+        { id: 'bookings', label: 'Bookings', func: loadBookings },
+        { id: 'messages', label: 'Messages', func: loadMessages }
+      ];
+
+      commonTabs.forEach(tab => {
+        const el = document.createElement('div');
+        el.classList.add('tab');
+        el.textContent = tab.label;
+        el.onclick = () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          el.classList.add('active');
+          tab.func();
+        };
+        tabs.appendChild(el);
+      });
+
+      if (currentUser.role === 'admin') {
+        const adminTab = document.createElement('div');
+        adminTab.classList.add('tab');
+        adminTab.textContent = 'Verifications';
+        adminTab.onclick = () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          adminTab.classList.add('active');
+          loadVerifications();
+        };
+        tabs.appendChild(adminTab);
+
+        const usersTab = document.createElement('div');
+        usersTab.classList.add('tab');
+        usersTab.textContent = 'Users';
+        usersTab.onclick = () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          usersTab.classList.add('active');
+          loadUsers();
+        };
+        tabs.appendChild(usersTab);
+      }
+      // Landlord verification tab
+if (currentUser.role === 'landlord') {
+  const verificationTab = document.createElement('div');
+  verificationTab.classList.add('tab');
+  verificationTab.textContent = '🔒 Verification';
+  verificationTab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    verificationTab.classList.add('active');
+    loadMyVerifications();
+  };
+  tabs.appendChild(verificationTab);
+}
+
+      // Activate first tab
+      tabs.firstChild.classList.add('active');
+      loadDashboard();
+    }
+
+    async function loadDashboard() {
+      const res = await fetch(`${API_URL}/dashboard/stats`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const stats = await res.json();
+
+      let html = '<div class="dashboard-grid">';
+      
+      if (currentUser.role === 'admin') {
+        html += `
+          <div class="stat-card">
+            <h3>${stats.total_users}</h3>
+            <p>Total Users</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.total_listings}</h3>
+            <p>Total Listings</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.pending_verifications}</h3>
+            <p>Pending Verifications</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.total_bookings}</h3>
+            <p>Total Bookings</p>
+          </div>
+        `;
+      } else if (currentUser.role === 'landlord') {
+        html += `
+          <div class="stat-card">
+            <h3>${stats.my_listings}</h3>
+            <p>My Listings</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.total_bookings}</h3>
+            <p>Total Bookings</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.pending_bookings}</h3>
+            <p>Pending Bookings</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.total_revenue}</h3>
+            <p>Total Revenue</p>
+          </div>
+        `;
+      } else { // student
+        html += `
+          <div class="stat-card">
+            <h3>${stats.my_bookings}</h3>
+            <p>My Bookings</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.available_listings}</h3>
+            <p>Available Listings</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.confirmed_bookings}</h3>
+            <p>Confirmed Bookings</p>
+          </div>
+          <div class="stat-card">
+            <h3>${stats.pending_bookings}</h3>
+            <p>Pending Bookings</p>
+          </div>
+        `;
+      }
+
+      html += '</div>';
+
+     if (currentUser.role === 'landlord') {
+  if (!currentUser.is_verified) {
+    html += `
+      <div class="stat-card" style="background: rgba(219, 39, 119, 0.15); border-color: rgba(236, 72, 153, 0.4); margin-top: 20px; text-align:center;">
+        <h3 style="margin-bottom:10px;">🔒 Verification Required</h3>
+        <p style="color: rgba(255,255,255,0.8); margin-bottom:15px;">
+          You need to be verified by an admin before you can create listings.<br>
+          Submit your National ID, Title Deed, or Utility Bill to get started.
+        </p>
+        <button class="btn btn-success" onclick="
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab').forEach(t => { if(t.textContent.includes('Verification')) { t.classList.add('active'); } });
+          loadMyVerifications();
+        ">📤 Submit Verification Documents</button>
+      </div>`;
+  } else {
+    html += `
+      <h2>Create New Listing</h2>
+      <form id="listingForm">
+        <input name="title" placeholder="Title" required>
+        <textarea name="description" placeholder="Description"></textarea>
+        <input name="location" placeholder="Location" required>
+        <input name="price" type="number" placeholder="Price (KES)" required>
+        <input name="amenities" placeholder="Amenities (comma-separated)">
+        <input name="proximity_to_campus" type="number" step="0.1" placeholder="Proximity to Campus (km)">
+        <input name="available_from" type="date" placeholder="Available From">
+        <button type="submit" class="btn">Create Listing</button>
+      </form>
+    `;
+  }
+}
+
+      document.getElementById('content').innerHTML = html;
+
+      if (currentUser.role === 'landlord' && currentUser.is_verified) {
+  document.getElementById('listingForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData);
+          const res = await fetch(`${API_URL}/listings`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+          });
+          if (res.ok) {
+            alert('Listing created! It will be visible to students after admin verification.');
+            e.target.reset();
+          } else {
+            alert('Error creating listing. Please try again.');
+          }
+          loadDashboard();
+        });
+      }
+    }
+// ── Search state ──────────────────────────────────────────────
+const searchState = {
+  location: '', min_price: '', max_price: '',
+  max_distance: '', amenity: '', sort: 'newest'
+};
+
+async function loadListings(overrides = {}) {
+  // Merge any overrides into current state
+  Object.assign(searchState, overrides);
+
+  // Build query string only from non-empty values
+  const params = new URLSearchParams();
+  if (searchState.location)     params.set('location',     searchState.location);
+  if (searchState.min_price)    params.set('min_price',    searchState.min_price);
+  if (searchState.max_price)    params.set('max_price',    searchState.max_price);
+  if (searchState.max_distance) params.set('max_distance', searchState.max_distance);
+  if (searchState.sort)         params.set('sort',         searchState.sort);
+  // status always 'available' for students; admins/landlords may see all
+  if (currentUser.role === 'student') params.set('status', 'available');
+
+  const url = `${API_URL}/listings?${params.toString()}`;
+  const startTime = performance.now();
+
+  let listings;
+  try {
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    listings = await res.json();
+  } catch (e) {
+    document.getElementById('content').innerHTML =
+      '<div class="empty-state">⚠️ Failed to load listings. Check your connection.</div>';
+    return;
+  }
+
+  const elapsed = Math.round(performance.now() - startTime);
+
+  // ── Filter by amenity client-side (fast, avoids extra round-trip) ──
+  let filtered = listings;
+  if (searchState.amenity && searchState.amenity.trim() !== '') {
+    const term = searchState.amenity.toLowerCase();
+    filtered = listings.filter(l =>
+      l.amenities && l.amenities.toLowerCase().includes(term)
+    );
+  }
+
+  // ── Render search panel (always shown) ──
+  let html = `
+    <div class="search-panel">
+      <div class="search-panel-title"><span>Search & Filter Listings</span></div>
+      <div class="search-row">
+
+        <div class="search-field">
+          <label>Location</label>
+          <input id="sf-location" type="text" placeholder="e.g. Kilimani"
+            value="${searchState.location}"
+            onkeydown="if(event.key==='Enter')applySearch()">
+        </div>
+
+        <div class="search-field">
+          <label>Min Price (KES)</label>
+          <input id="sf-min" type="number" placeholder="0"
+            value="${searchState.min_price}" min="0">
+        </div>
+
+        <div class="search-field">
+          <label>Max Price (KES)</label>
+          <input id="sf-max" type="number" placeholder="any"
+            value="${searchState.max_price}" min="0">
+        </div>
+
+        <div class="search-field">
+          <label>Max Distance (km)</label>
+          <input id="sf-dist" type="number" placeholder="any" step="0.1"
+            value="${searchState.max_distance}" min="0">
+        </div>
+
+        <div class="search-field">
+          <label>Amenity Keyword</label>
+          <input id="sf-amenity" type="text" placeholder="e.g. WiFi, Gym"
+            value="${searchState.amenity}"
+            onkeydown="if(event.key==='Enter')applySearch()">
+        </div>
+
+        <div class="search-field">
+          <label>Sort By</label>
+          <select id="sf-sort">
+            <option value="newest"     ${searchState.sort==='newest'    ?'selected':''}>Newest first</option>
+            <option value="price_asc"  ${searchState.sort==='price_asc' ?'selected':''}>Price: Low → High</option>
+            <option value="price_desc" ${searchState.sort==='price_desc'?'selected':''}>Price: High → Low</option>
+            <option value="distance"   ${searchState.sort==='distance'  ?'selected':''}>Nearest campus</option>
+          </select>
+        </div>
+
+        <div class="search-actions">
+          <button class="btn-search" onclick="applySearch()">Search</button>
+          <button class="btn-clear" onclick="clearSearch()">Clear</button>
+        </div>
+
+      </div>
+      <div class="search-meta">
+        ${filtered.length} listing${filtered.length !== 1 ? 's' : ''} found
+        &nbsp;·&nbsp; ${elapsed} ms
+      </div>
+    </div>
+  `;
+
+  if (!filtered.length) {
+    html += '<div class="empty-state">No listings match your search. Try adjusting the filters.</div>';
+    document.getElementById('content').innerHTML = html;
+    return;
+  }
+
+  filtered.forEach(l => {
+    // Parse amenities into tag pills
+    const amenityTags = (l.amenities || '').split(',')
+      .map(a => a.trim()).filter(Boolean)
+      .map(a => `<span class="amenity-tag">${a}</span>`)
+      .join('');
+
+    // Fix: status may be missing, default to 'available' if listing is verified
+    const status = l.status || 'available';
+    // Fix: is_verified comes as 0/1 integer from MySQL, coerce to boolean
+    const isVerified = l.is_verified == 1 || l.is_verified === true;
+
+    html += `
+      <div class="listing">
+        <div class="listing-header">
+          <h3>${l.title}</h3>
+          <span class="listing-badge ${status}">${status}</span>
+        </div>
+        <div class="listing-details">
+          <div><strong>📍 Location:</strong> ${l.location}</div>
+          <div><strong>💰 Price:</strong> KES ${Number(l.price).toLocaleString()}/mo</div>
+          <div><strong>🏫 Distance:</strong> ${l.proximity_to_campus != null ? l.proximity_to_campus + ' km from campus' : 'N/A'}</div>
+          <div><strong>👤 Landlord:</strong> ${l.landlord_name}</div>
+        </div>
+        ${amenityTags ? `<div class="amenity-tags">${amenityTags}</div>` : ''}
+    `;
+
+    if (currentUser.role === 'student' && status === 'available' && isVerified) {
+      html += `
+        <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-success btn-small" onclick="bookListing(${l.listing_id})">Book Now</button>
+          <button class="btn btn-secondary btn-small" onclick="startMessageToLandlord(${l.landlord_id}, '${(l.landlord_name || '').replace(/'/g, "\\'")}', ${l.listing_id}, '${(l.title || '').replace(/'/g, "\\'")}')">Message Landlord</button>
+        </div>`;
+    } else if (currentUser.role === 'student' && status !== 'available') {
+      html += `<div style="margin-top:10px;"><small style="color:rgba(255,255,255,0.5);">This listing is currently ${status} and cannot be booked.</small></div>`;
+    } else if (currentUser.role === 'admin' && !isVerified) {
+      html += `<div style="margin-top:12px;"><button class="btn btn-success btn-small" onclick="verifyListing(${l.listing_id})">Verify Listing</button></div>`;
+    } else if (currentUser.role === 'landlord' && l.landlord_id === currentUser.id) {
+      html += `<div style="margin-top:10px;"><small>${isVerified ? '✅ Verified — visible to students' : '⏳ Pending admin verification'}</small></div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  document.getElementById('content').innerHTML = html;
+}
+
+// Read inputs → update state → reload
+function applySearch() {
+  loadListings({
+    location:     document.getElementById('sf-location')?.value.trim() || '',
+    min_price:    document.getElementById('sf-min')?.value.trim()      || '',
+    max_price:    document.getElementById('sf-max')?.value.trim()      || '',
+    max_distance: document.getElementById('sf-dist')?.value.trim()     || '',
+    amenity:      document.getElementById('sf-amenity')?.value.trim()  || '',
+    sort:         document.getElementById('sf-sort')?.value            || 'newest'
+  });
+}
+
+function clearSearch() {
+  Object.assign(searchState, {
+    location: '', min_price: '', max_price: '',
+    max_distance: '', amenity: '', sort: 'newest'
+  });
+  loadListings();
+}
+
+    async function bookListing(id) {
+      const bookingDate = prompt('Enter booking date (YYYY-MM-DD):', new Date().toISOString().split('T')[0]);
+      if (!bookingDate) return;
+
+      const res = await fetch(`${API_URL}/bookings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ listing_id: id, booking_date: bookingDate })
+      });
+
+      if (res.ok) {
+        alert('Booking successful! Check your bookings.');
+        loadListings();
+      } else {
+        alert('Error booking. Listing may not be available.');
+      }
+    }
+
+    async function verifyListing(id) {
+      if (!confirm('Verify this listing?')) return;
+
+      const res = await fetch(`${API_URL}/listings/${id}/verify`, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (res.ok) {
+        alert('Listing verified!');
+        loadListings();
+      } else {
+        alert('Error verifying listing.');
+      }
+    }
+
+    async function loadBookings() {
+      const res = await fetch(`${API_URL}/bookings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const bookings = await res.json();
+
+      if (!bookings.length) {
+        document.getElementById('content').innerHTML = '<div class="empty-state">No bookings yet.</div>';
+        return;
+      }
+
+      let html = '<h2>Bookings</h2>';
+      bookings.forEach(b => {
+        html += `
+          <div class="booking-card">
+            <strong>${b.listing_title}</strong> — ${b.listing_location}<br>
+            <span class="booking-status ${b.status}">${b.status}</span><br>
+            <small>Booked on: ${new Date(b.booking_date).toLocaleDateString()}</small><br>`;
+        
+        // Show student info for landlords
+        if (currentUser.role === 'landlord') {
+          html += `<small><strong>Student:</strong> ${b.student_name} (${b.student_email})</small><br>`;
+          if (b.student_phone) {
+            html += `<small><strong>Phone:</strong> ${b.student_phone}</small><br>`;
+          }
+          
+          // Show action buttons based on status
+          if (b.status === 'pending') {
+            html += `
+              <button class="btn btn-success btn-small" onclick="confirmBooking(${b.booking_id})">Confirm</button>
+              <button class="btn btn-danger btn-small" onclick="cancelBooking(${b.booking_id})">Cancel</button>
+              <button class="btn btn-secondary btn-small" onclick="startMessageToStudent(${b.student_id}, '${(b.student_name || '').replace(/'/g, "\\'")}')">💬 Message Student</button>`;
+          } else if (b.status === 'confirmed') {
+            html += `
+              <button class="btn btn-danger btn-small" onclick="cancelBooking(${b.booking_id})">Cancel Booking</button>
+              <button class="btn btn-secondary btn-small" onclick="startMessageToStudent(${b.student_id}, '${(b.student_name || '').replace(/'/g, "\\'")}')">💬 Message Student</button>`;
+          }
+        }
+        
+        // Show cancel option for students on their own bookings
+        if (currentUser.role === 'student' && (b.status === 'pending' || b.status === 'confirmed')) {
+          html += `<button class="btn btn-danger btn-small" onclick="cancelBooking(${b.booking_id})">Cancel Booking</button>`;
+        }
+        
+        html += `</div>`;
+      });
+      document.getElementById('content').innerHTML = html;
+    }
+
+    async function loadMessages() {
+      const res = await fetch(`${API_URL}/messages/conversations`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const conversations = await res.json();
+
+      if (!conversations.length) {
+        document.getElementById('content').innerHTML = '<div class="empty-state">No conversations yet. Start messaging landlords about their properties!</div>';
+        return;
+      }
+
+      let html = '<h2>Messages</h2>';
+      html += '<div style="display: grid; gap: 15px;">';
+      
+      conversations.forEach(c => {
+        const unreadBadge = c.unread_count > 0 ? `<span class="badge" style="background: rgba(219, 39, 119, 0.8);">${c.unread_count} new</span>` : '';
+        html += `
+          <div class="booking-card" style="cursor: pointer;" onclick="openConversation(${c.other_user_id}, '${c.other_user_name}')">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <strong>${c.other_user_name}</strong>
+              <span class="badge">${c.other_user_role}</span>
+            </div>
+            <div style="color: rgba(255, 255, 255, 0.7); font-size: 14px; margin-bottom: 5px;">
+              ${c.last_message ? c.last_message.substring(0, 50) + (c.last_message.length > 50 ? '...' : '') : 'No messages yet'}
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <small>${c.last_message_time ? new Date(c.last_message_time).toLocaleString() : ''}</small>
+              ${unreadBadge}
+            </div>
+          </div>`;
+      });
+      
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    async function openConversation(otherUserId, otherUserName) {
+      const res = await fetch(`${API_URL}/messages/conversation/${otherUserId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const messages = await res.json();
+
+      let html = `
+        <div style="margin-bottom: 20px;">
+          <button class="btn btn-secondary btn-small" onclick="loadMessages()">← Back to Conversations</button>
+          <h2>Conversation with ${otherUserName}</h2>
+        </div>
+        <div class="message-thread" style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">`;
+      
+      if (messages.length === 0) {
+        html += '<div class="empty-state">No messages yet. Start the conversation!</div>';
+      } else {
+        messages.forEach(m => {
+          html += `
+            <div class="message ${m.sender_id === currentUser.id ? 'sent' : ''}">
+              <div class="message-header">
+                <strong>${m.sender_name}</strong>
+                <span>${new Date(m.sent_at).toLocaleString()}</span>
+              </div>
+              <div class="message-content">${m.content}</div>
+              ${m.listing_title ? `<small style="color: rgba(255, 255, 255, 0.6); margin-top: 5px; display: block;">About: ${m.listing_title}</small>` : ''}
+            </div>`;
+        });
+      }
+      
+      html += `
+        </div>
+        <form id="messageForm" style="display: flex; gap: 10px;">
+          <textarea id="messageContent" placeholder="Type your message..." style="flex: 1; min-height: 80px;" required></textarea>
+          <button type="submit" class="btn btn-success" style="width: auto; height: fit-content;">Send</button>
+        </form>`;
+      
+      document.getElementById('content').innerHTML = html;
+
+      // Handle message sending
+      document.getElementById('messageForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const content = document.getElementById('messageContent').value;
+        
+        try {
+          const res = await fetch(`${API_URL}/messages`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              receiver_id: otherUserId,
+              content: content
+            })
+          });
+
+          if (res.ok) {
+            openConversation(otherUserId, otherUserName); // Reload conversation
+          } else {
+            alert('Error sending message');
+          }
+        } catch (err) {
+          alert('Error: ' + err.message);
+        }
+      });
+
+      // Auto-scroll to bottom of messages
+      const messageThread = document.querySelector('.message-thread');
+      if (messageThread) {
+        messageThread.scrollTop = messageThread.scrollHeight;
+      }
+    }
+
+    function startMessageToStudent(studentId, studentName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => {
+        if (t.textContent.trim() === 'Messages') t.classList.add('active');
+      });
+      openConversation(studentId, studentName);
+    }
+
+  async function loadVerifications(statusFilter = 'pending') {
+  const res = await fetch(`${API_URL}/verifications?status=${statusFilter}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const verifications = await res.json();
+
+  const docTypeLabel = {
+    national_id: '🪪 National ID',
+    title_deed: '📜 Title Deed',
+    utility_bill: '💡 Utility Bill',
+    other: '📄 Other'
+  };
+
+  let html = `
+    <h2>✅ Verification Requests</h2>
+    <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+      <button class="btn btn-small ${statusFilter==='pending'?'btn-success':'btn-secondary'}" onclick="loadVerifications('pending')">⏳ Pending</button>
+      <button class="btn btn-small ${statusFilter==='approved'?'btn-success':'btn-secondary'}" onclick="loadVerifications('approved')">✅ Approved</button>
+      <button class="btn btn-small ${statusFilter==='rejected'?'btn-success':'btn-secondary'}" onclick="loadVerifications('rejected')">❌ Rejected</button>
+    </div>`;
+
+  if (!verifications.length) {
+    html += '<div class="empty-state">No verifications with this status.</div>';
+    document.getElementById('content').innerHTML = html;
+    return;
+  }
+
+  html += '<div style="display:grid; gap:15px;">';
+  verifications.forEach(v => {
+    const submittedDate = v.verified_at
+      ? new Date(v.verified_at).toLocaleString()
+      : 'Not yet reviewed';
+
+    html += `
+      <div class="listing">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+          <div>
+            <strong style="font-size:16px;">${v.full_name}</strong>
+            <span class="badge" style="margin-left:8px;">${v.email}</span>
+          </div>
+          <span class="badge">${v.username}</span>
+        </div>
+        <div style="margin-bottom:10px; color: rgba(255,255,255,0.8);">
+          <div>📋 <strong>Type:</strong> ${docTypeLabel[v.verification_type] || v.verification_type}</div>
+          <div>📞 <strong>Phone:</strong> ${v.phone_number || 'N/A'}</div>
+          <div>🕐 <strong>Reviewed:</strong> ${submittedDate}</div>
+          ${v.verified_by_name ? `<div>👤 <strong>Reviewed by:</strong> ${v.verified_by_name}</div>` : ''}
+        </div>
+        ${v.document_url
+          ? `<a href="${v.document_url}" target="_blank" class="btn btn-secondary btn-small" style="margin-bottom:10px; display:inline-block;">🔗 View Document</a>`
+          : '<span style="color:rgba(255,255,255,0.5); font-size:13px;">No document URL provided</span>'
+        }
+        ${v.status === 'pending' ? `
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button class="btn btn-success btn-small" onclick="reviewVerification(${v.verification_id}, 'approved')">✅ Approve</button>
+          <button class="btn btn-danger btn-small" onclick="reviewVerification(${v.verification_id}, 'rejected')">❌ Reject</button>
+        </div>` : `<div style="margin-top:10px;"><span class="badge">${v.status.toUpperCase()}</span></div>`}
+      </div>`;
+  });
+  html += '</div>';
+  document.getElementById('content').innerHTML = html;
+}
+
+    async function reviewVerification(id, status) {
+  const label = status === 'approved' ? 'approve' : 'reject';
+  if (!confirm(`Are you sure you want to ${label} this verification?`)) return;
+
+  const res = await fetch(`${API_URL}/verification/${id}/review`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ status })
+  });
+
+  if (res.ok) {
+    alert(`Verification ${status} successfully.`);
+  } else {
+    const data = await res.json();
+    alert('Error: ' + (data.error || 'Failed to update'));
+  }
+  loadVerifications('pending');
+}
+
+    async function loadUsers() {
+      const res = await fetch(`${API_URL}/users`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const users = await res.json();
+      let html = '<h2>👥 Users</h2><table><tr><th>Name</th><th>Email</th><th>Role</th><th>Verified</th></tr>';
+      users.forEach(u => {
+        html += `<tr><td>${u.full_name}</td><td>${u.email}</td><td>${u.role}</td><td>${u.is_verified ? 'âœ…' : 'âŒ'}</td></tr>`;
+      });
+      html += '</table>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function logout() {
+      token = null;
+      currentUser = null;
+      switchAuthTab('login');
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('app').classList.add('hidden');
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    async function confirmBooking(bookingId) {
+      if (!confirm('Confirm this booking?')) return;
+
+      try {
+        const res = await fetch(`${API_URL}/bookings/${bookingId}/confirm`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (res.ok) {
+          alert('Booking confirmed successfully!');
+          loadBookings();
+        } else {
+          const error = await res.json();
+          alert(error.error || 'Failed to confirm booking');
+        }
+      } catch (err) {
+        alert('Error confirming booking: ' + err.message);
+      }
+    }
+
+   async function cancelBooking(bookingId) {
+      if (!confirm('Cancel this booking? The listing will become available again.')) return;
+
+      try {
+        const res = await fetch(`${API_URL}/bookings/${bookingId}/cancel`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (res.ok) {
+          alert('Booking cancelled successfully!');
+          loadBookings();
+        } else {
+          const error = await res.json();
+          alert(error.error || 'Failed to cancel booking');
+        }
+      } catch (err) {
+        alert('Error cancelling booking: ' + err.message);
+      }
+    }
+
+    function startMessageToLandlord(landlordId, landlordName, listingId, listingTitle) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => {
+        if (t.textContent.trim() === 'Messages') t.classList.add('active');
+      });
+      openConversation(landlordId, landlordName);
+    }
+        async function loadMyVerifications() {
+      const res = await fetch(`${API_URL}/verifications/my`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const verifications = await res.json();
+
+      let html = '<h2>🔒 My Verification Status</h2>';
+      
+      if (!currentUser.is_verified) {
+        html += `
+          <div class="stat-card" style="background: rgba(219, 39, 119, 0.2); border-color: rgba(236, 72, 153, 0.4); margin-bottom: 20px;">
+            <h3 style="color: #ffffff; margin-bottom: 10px;">⚠️ Account Not Verified</h3>
+            <p style="color: rgba(255, 255, 255, 0.8);">
+              You must submit verification documents to create listings.
+            </p>
+          </div>`;
+      } else {
+        html += `
+          <div class="stat-card" style="background: rgba(168, 85, 247, 0.2); border-color: rgba(192, 132, 252, 0.4); margin-bottom: 20px;">
+            <h3 style="color: #ffffff; margin-bottom: 10px;">✅ Account Verified</h3>
+            <p style="color: rgba(255, 255, 255, 0.8);">
+              Your account is verified. You can create and manage listings.
+            </p>
+          </div>`;
+      }
+
+      html += `
+        <div class="form-container" style="margin-bottom: 30px;">
+          <h3 style="margin-bottom: 15px;">Submit New Verification Document</h3>
+          <form id="verificationForm">
+            <div style="margin-bottom: 15px;">
+              <label style="display: block; margin-bottom: 5px;">Document Type:</label>
+              <select id="verificationType" required style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(236, 72, 153, 0.25); border-radius: 8px; color: white;">
+                <option value="">Select document type...</option>
+                <option value="national_id">National ID / Passport</option>
+                <option value="title_deed">Title Deed</option>
+                <option value="utility_bill">Utility Bill</option>
+                <option value="other">Other Document</option>
+              </select>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+              <label style="display: block; margin-bottom: 5px;">Document URL:</label>
+              <input type="url" id="documentUrl" placeholder="https://drive.google.com/..." required 
+                     style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(236, 72, 153, 0.25); border-radius: 8px; color: white;">
+              <small style="color: rgba(255, 255, 255, 0.6); display: block; margin-top: 5px;">
+                📁 Upload to Google Drive/Dropbox and paste link here
+              </small>
+            </div>
+            
+            <button type="submit" class="btn btn-success">📤 Submit</button>
+          </form>
+        </div>`;
+
+      html += '<h3 style="margin-top: 30px; margin-bottom: 15px;">📋 History</h3>';
+      
+      if (verifications.length === 0) {
+        html += '<div class="empty-state">No submissions yet.</div>';
+      } else {
+        html += '<div style="display: grid; gap: 15px;">';
+        verifications.forEach(v => {
+          const statusColor = 
+            v.status === 'approved' ? 'rgba(168, 85, 247, 0.3)' :
+            v.status === 'rejected' ? 'rgba(219, 39, 119, 0.3)' :
+            'rgba(251, 191, 36, 0.3)';
+          
+          const statusIcon = v.status === 'approved' ? '✅' : v.status === 'rejected' ? '❌' : '⏳';
+
+          html += `
+            <div class="booking-card" style="border-color: ${statusColor};">
+              <strong>${statusIcon} ${v.verification_type.toUpperCase()}</strong>
+              <span class="badge" style="background: ${statusColor};">${v.status}</span><br>
+              <a href="${v.document_url}" target="_blank">View Document 🔗</a>
+            </div>`;
+        });
+        html += '</div>';
+      }
+
+      document.getElementById('content').innerHTML = html;
+
+      document.getElementById('verificationForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        try {
+          const res = await fetch(`${API_URL}/verifications`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              verification_type: document.getElementById('verificationType').value,
+              document_url: document.getElementById('documentUrl').value
+            })
+          });
+
+          if (res.ok) {
+            alert('✅ Verification submitted!');
+            loadMyVerifications();
+          } else {
+            const data = await res.json();
+            alert('❌ Error: ' + (data.error || 'Failed'));
+          }
+        } catch (err) {
+          alert('❌ Error: ' + err.message);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
